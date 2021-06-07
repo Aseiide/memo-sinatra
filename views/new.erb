@@ -3,7 +3,13 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <p>新規作成画面</p>
-    <p>メモのタイトルと内容をフォームで送れるようにする</p>
+    <h1>新規作成</h1>
+    <form action="/memos" method="post">
+      <input type="text" name="title" placeholder="タイトル">
+      <p></p>
+      <input type="text" name="article" placeholder="内容">
+      <p></p>
+      <button type="submit">作成</button>
+    </form>
   </body>
 </html>

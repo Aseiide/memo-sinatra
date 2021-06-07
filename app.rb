@@ -1,18 +1,24 @@
 require 'sinatra'
 require 'sinatra/reloader'
 
-get '/' do
+get '/memos' do
   erb :top
 end
 
-get '/new' do
+post '/memos' do
+  @title = params[:title]
+  @article = params[:article]
+  erb :top
+end
+
+get '/memos/new' do
   erb :new
 end
 
-get '/edit' do
+get '/memos/edit' do
   erb :edit
 end
 
-get '/show' do
+get '/memos/show' do
   erb :show
 end
