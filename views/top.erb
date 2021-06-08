@@ -1,10 +1,5 @@
-<html>
-  <head>
-    <meta charset="UTF-8">
-  </head>
-  <body>
-    <p>トップページ</p>
-    <p>ここにはメモタイトルが一覧で表示する</p>
-    <p><%=@title%></p>
-  </body>
-</html>
+<ul>
+  <% @all_memos.each do |file| %>
+    <p><%= file["id"] %>"><p>
+  <% end %>
+</ul>
