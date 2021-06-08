@@ -1,5 +1,5 @@
 <ul>
   <% @all_memos.each do |file| %>
-    <p><%= file["id"] %>"><p>
+    <li><a href="/memos/<%= file["id"] %>"><%= escape(file["title"]) %></a></li>
   <% end %>
 </ul>

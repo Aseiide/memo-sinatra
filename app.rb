@@ -30,6 +30,7 @@ post '/memos' do
     "article"=> params[:article]
   }
   write_to_json_file(new_memo)
+  redirect('/memos')
 end
 
 get '/memos/new' do
