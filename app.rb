@@ -1,5 +1,10 @@
 require 'sinatra'
 require 'sinatra/reloader'
+require 'securerandom'
+
+get '/' do
+  redirect("/memos")
+end
 
 get '/memos' do
   erb :top
@@ -8,8 +13,12 @@ end
 post '/memos' do
   @title = params[:title]
   @article = params[:article]
-  memos = { "memo1" => { "title" => @title,"article"=> @article }}
-  File.open("./json/memo.json", 'w') do |file| 
+  memos = {
+    'id' => SecureRandom.uuid, 
+    "title" => @title,
+    "article"=> @article
+  }
+  File.open("./json/memos.json", 'w') do |file| 
   JSON.dump(memos, file)
   end
   erb :top
