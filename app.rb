@@ -8,6 +8,10 @@ end
 post '/memos' do
   @title = params[:title]
   @article = params[:article]
+  memos = { "memo1" => { "title" => @title,"article"=> @article }}
+  File.open("./json/memo.json", 'w') do |file| 
+  JSON.dump(memos, file)
+  end
   erb :top
 end
 
