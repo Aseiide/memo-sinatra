@@ -1,3 +1,4 @@
+<h1>メモアプリ</h1>
 <ul>
   <% @all_memos.each do |file| %>
     <li><a href="/memos/<%= file["id"] %>"><%= escape(file["title"]) %></a></li>
