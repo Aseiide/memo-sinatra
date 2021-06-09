@@ -51,3 +51,8 @@ get '/memos/:id' do
   @result = fetch_memos_from_json_file.find { |x| x['id'].include?(id) }
   erb :show
 end
+
+delete '/memos/:id' do
+  File.delete("json/#{params['id']}.json")
+  redirect('/memos')
+end
