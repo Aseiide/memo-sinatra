@@ -1,7 +1,7 @@
 .memo__title__item
-  = @result["title"]
+  &= @result["title"]
 .memo__body__item
-  = @result["article"]
+  &= @result["article"]
 %input{:onclick => "location.href='./#{@result["id"]}/edit'", :type => "submit", :value => "編集"}/
 %form{:action => "/memos/#{@result["id"]}", :method => "post"}
   %input{:name => "_method", :type => "hidden", :value => "DELETE"}/
