@@ -1,6 +1,11 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'securerandom'
+require 'haml'
+
+class App < Sinatra::Base
+  set :haml, :escape_html => true
+end
 
 #JSON形式でtitleとarticleをmemos.jsonに書き出す
 def write_to_json_file(hash)
@@ -20,7 +25,7 @@ end
 
 get '/memos' do
   @all_memos = pull_memos_from_json_file
-  erb :top
+  haml :top
 end
 
 post '/memos' do
@@ -34,13 +39,13 @@ post '/memos' do
 end
 
 get '/memos/new' do
-  erb :new
+  haml :new
 end
 
 get '/memos/:id/edit' do
   id = params[:id]
   @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
-  erb :edit
+  haml :edit
 end
 
 patch '/memos/:id' do
@@ -54,14 +59,14 @@ patch '/memos/:id' do
 end
 
 get '/memos/show' do
-  erb :show
+  haml :show
 end
 
 get '/memos/:id' do
   #idのメモのtitleとarticleを表示する
   id = params[:id]
   @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
-  erb :show
+  haml :show
 end
 
 delete '/memos/:id' do
