@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/reloader'
 require 'securerandom'
 require 'haml'
 
-#JSON形式でtitleとarticleをmemos.jsonに書き出す
+# JSON形式でtitleとarticleをmemos.jsonに書き出す
 def write_to_json_file(hash)
-  File.open("json/#{hash['id']}.json", 'w') do |file| 
+  File.open("json/#{hash['id']}.json", 'w') do |file|
     JSON.dump(hash, file)
   end
 end
@@ -16,7 +18,7 @@ def pull_memos_from_json_file
 end
 
 get '/' do
-  redirect("/memos")
+  redirect('/memos')
 end
 
 get '/memos' do
@@ -26,9 +28,9 @@ end
 
 post '/memos' do
   new_memo = {
-    'id' => SecureRandom.uuid, 
+    'id' => SecureRandom.uuid,
     'title' => params[:title],
-    'article'=> params[:article]
+    'article' => params[:article]
   }
   write_to_json_file(new_memo)
   redirect('/memos')
@@ -59,7 +61,7 @@ get '/memos/show' do
 end
 
 get '/memos/:id' do
-  #idのメモのtitleとarticleを表示する
+  # idのメモのtitleとarticleを表示する
   id = params[:id]
   @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
   haml :show
