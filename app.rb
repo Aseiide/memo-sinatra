@@ -3,10 +3,6 @@ require 'sinatra/reloader'
 require 'securerandom'
 require 'haml'
 
-class App < Sinatra::Base
-  set :haml, :escape_html => true
-end
-
 #JSON形式でtitleとarticleをmemos.jsonに書き出す
 def write_to_json_file(hash)
   File.open("json/#{hash['id']}.json", 'w') do |file| 
