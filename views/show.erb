@@ -5,6 +5,7 @@
   <%= @result["article"] %>
 </div>
 
+<input type="submit" onclick="location.href='./<%=@result["id"]%>/edit'" value='編集'>
 <form method="post" action="/memos/<%=@result["id"]%>">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="delete!!">
