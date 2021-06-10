@@ -9,7 +9,7 @@ def write_to_json_file(hash)
   end
 end
 
-def fetch_memos_from_json_file
+def pull_memos_from_json_file
   json_files = Dir.glob('json/*').sort_by { |file| File.birthtime(file) }
   json_files.map { |file| JSON.parse(File.read(file)) }
 end
@@ -19,7 +19,7 @@ get '/' do
 end
 
 get '/memos' do
-  @all_memos = fetch_memos_from_json_file
+  @all_memos = pull_memos_from_json_file
   erb :top
 end
 
@@ -39,7 +39,7 @@ end
 
 get '/memos/:id/edit' do
   id = params[:id]
-  @result = fetch_memos_from_json_file.find { |x| x['id'].include?(id) }
+  @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
   erb :edit
 end
 
@@ -60,7 +60,7 @@ end
 get '/memos/:id' do
   #idのメモのtitleとarticleを表示する
   id = params[:id]
-  @result = fetch_memos_from_json_file.find { |x| x['id'].include?(id) }
+  @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
   erb :show
 end
 
