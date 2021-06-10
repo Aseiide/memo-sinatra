@@ -37,8 +37,20 @@ get '/memos/new' do
   erb :new
 end
 
-get '/memos/edit' do
+get '/memos/:id/edit' do
+  id = params[:id]
+  @result = fetch_memos_from_json_file.find { |x| x['id'].include?(id) }
   erb :edit
+end
+
+patch '/memos/:id' do
+  edited_memo = {
+    'id' => params[:id],
+    'title' => params[:title],
+    'article' => params[:article]
+  }
+  write_to_json_file(edited_memo)
+  redirect('/memos')
 end
 
 get '/memos/show' do
