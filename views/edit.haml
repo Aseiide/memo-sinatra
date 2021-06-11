@@ -1,8 +1,5 @@
 %form{:action => "/memos/#{@result["id"]}", :method => "post"}
-  %input{:name => "_method", :type => "hidden", :value => "patch"}/
-  .memo__title
-    %input.memo__title__item{:name => "title", :required => "", :type => "text", :value => @result["title"]}/
-  %div
-    %textarea.memo__body__item{:name => "article", :required => ""}= @result["article"]
-  .button-item
-    %input.save__new-edit-button{:type => "submit", :value => "更新"}/
+  %input{:name => "_method", :type => "hidden", :value => "patch"}
+    %input{:name => "title", :required => "", :type => "text", :value => @result["title"]}
+    %textarea{:name => "article", :required => ""}= @result["article"]
+    %input{:type => "submit", :value => "更新"}
