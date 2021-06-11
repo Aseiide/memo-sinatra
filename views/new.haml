@@ -1,12 +1,6 @@
-!!!
-%html
-  %head
-    %meta{:charset => "UTF-8"}/
-  %body
-    %h1 新規作成
-    %form{:action => "/memos", :method => "post"}
-      %input{:name => "title", :placeholder => "タイトル", :type => "text"}/
-      %p
-      %input{:name => "article", :placeholder => "内容", :type => "text"}/
-      %p
-      %button{:type => "submit"} 作成
+%form{:action => "/memos", :method => "post"}
+  %input{:name => "title", :placeholder => "タイトル", :type => "text"}/
+  %p
+  %input{:name => "article", :placeholder => "内容", :type => "text"}/
+  %p
+  %button{:type => "submit"} 作成
