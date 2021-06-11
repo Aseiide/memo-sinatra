@@ -71,3 +71,7 @@ delete '/memos/:id' do
   File.delete("json/#{params['id']}.json")
   redirect('/memos')
 end
+
+not_found do
+  '404エラー'
+end
