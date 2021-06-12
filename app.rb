@@ -25,6 +25,6 @@ end
 
 # idを取得してデータを削除
 def delete_note(id)
-  delete_note_query = "DELETE FROM #{TABLE_NAME} WHERE id = #{id}"
+  delete_note_query = "DELETE FROM memos WHERE id = #{id}"
   connect_to_db.exec(delete_note_query)
 end
