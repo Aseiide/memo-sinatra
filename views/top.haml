@@ -1,6 +1,4 @@
-%ul
-  - @all_memos.each do |file|
-    %li
-      %a{:href => "/memos/#{file["id"]}"}&= file["title"]
+- @all_memos.each do |file|
+    %li=file["title"]
 
 %input{:onclick => "location.href='./memos/new'", :type => "submit", :value => "新規作成"}
