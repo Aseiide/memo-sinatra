@@ -1,77 +1,34 @@
 # frozen_string_literal: true
 
-require 'sinatra'
-require 'sinatra/reloader'
-require 'securerandom'
-require 'haml'
+# require 'sinatra'
+# require 'sinatra/reloader'
+# require 'securerandom'
+# require 'haml'
+require 'pg'
 
-# JSON形式でtitleとarticleをmemos.jsonに書き出す
-def write_to_json_file(hash)
-  File.open("json/#{hash['id']}.json", 'w') do |file|
-    JSON.dump(hash, file)
+# データベースとの接続
+def connect_to_db
+  PG.connect( dbname: 'memo_sinatra' )
+end
+
+# def write_to_db(hash)
+#   connect_to_db
+#   conn.exec("INSERT INTO memos(id, title, article) VALUES ('#{hash['id']}', '#{hash['title']}', '#{hash['article']}')")
+# end
+
+def fetch_memos_from_db
+  connect_to_db.exec("SELECT * FROM memos ORDER BY id") do |result|
+    result.each do |row|
+      puts "id: #{row["id"]}"
+      puts "タイトル: #{row["title"]}"
+      puts "メモ: #{row["article"]}"
+    end
   end
 end
+fetch_memos_from_db
 
-def pull_memos_from_json_file
-  json_files = Dir.glob('json/*').sort_by { |file| File.birthtime(file) }
-  json_files.map { |file| JSON.parse(File.read(file)) }
-end
-
-get '/' do
-  redirect('/memos')
-end
-
-get '/memos' do
-  @all_memos = pull_memos_from_json_file
-  haml :top
-end
-
-post '/memos' do
-  new_memo = {
-    'id' => SecureRandom.uuid,
-    'title' => params[:title],
-    'article' => params[:article]
-  }
-  write_to_json_file(new_memo)
-  redirect('/memos')
-end
-
-get '/memos/new' do
-  haml :new
-end
-
-get '/memos/:id/edit' do
-  id = params[:id]
-  @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
-  haml :edit
-end
-
-patch '/memos/:id' do
-  edited_memo = {
-    'id' => params[:id],
-    'title' => params[:title],
-    'article' => params[:article]
-  }
-  write_to_json_file(edited_memo)
-  redirect('/memos')
-end
-
-get '/memos/show' do
-  haml :show
-end
-
-get '/memos/:id' do
-  # idのメモのtitleとarticleを表示する
-  id = params[:id]
-  @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
-  haml :show
-end
-
-delete '/memos/:id' do
-  File.delete("json/#{params['id']}.json")
-  redirect('/memos')
-end
-
-not_found do
-  '404エラー'
-end
+# def update_memo
+#   conn = PG.connect( dbname: 'memo_sinatra' )
+#   conn.exec("UPDATE memos SET title= 'さらに更新しました', article = 'さらに更新しました' WHERE id = '1234567'")
+# end
+# update_memo
