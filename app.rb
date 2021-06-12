@@ -11,24 +11,20 @@ def connect_to_db
   PG.connect( dbname: 'memo_sinatra' )
 end
 
-# def write_to_db(hash)
-#   connect_to_db
-#   conn.exec("INSERT INTO memos(id, title, article) VALUES ('#{hash['id']}', '#{hash['title']}', '#{hash['article']}')")
-# end
-
-def fetch_memos_from_db
-  connect_to_db.exec("SELECT * FROM memos ORDER BY id") do |result|
-    result.each do |row|
-      puts "id: #{row["id"]}"
-      puts "タイトル: #{row["title"]}"
-      puts "メモ: #{row["article"]}"
-    end
-  end
+# データを追加
+def create_memo(title, article)
+  create_memo_query = "INSERT INTO memos (title, body) VALUES ('#{title}', '#{article}') RETURNING id"
+  connect_to_db.exec(create_memo) {|result| result[0]['id']}
 end
-fetch_memos_from_db
 
-# def update_memo
-#   conn = PG.connect( dbname: 'memo_sinatra' )
-#   conn.exec("UPDATE memos SET title= 'さらに更新しました', article = 'さらに更新しました' WHERE id = '1234567'")
-# end
-# update_memo
+# idを取得してデータを編集
+def update_memo(id, title, body)
+  update_memo_query = "UPDATE memos SET (title, body) = ('#{title}', '#{body}') WHERE id = #{id}"
+  connect_to_db.exec(update_memo_query)
+end
+
+# idを取得してデータを削除
+def delete_note(id)
+  delete_note_query = "DELETE FROM #{TABLE_NAME} WHERE id = #{id}"
+  connect_to_db.exec(delete_note_query)
+end
