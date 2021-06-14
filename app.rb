@@ -29,6 +29,12 @@ def delete_note(id)
   connect_to_db.exec(delete_note_query)
 end
 
+# idを取得してtitleとarticleをselectする
+def bring_from_memo(id)
+  bring_memo_query = "SELECT title, article FROM memos where id = '#{id}'";
+  connect_to_db.exec(bring_memo_query)
+end
+
 # DBから全idのタイトルを取得
 def select_from_memos
   memos_data = "SELECT title FROM memos";
@@ -57,4 +63,11 @@ post '/memos' do
   }
   create_memo(new_memo)
   redirect('/memos')
+end
+
+get '/memos/:id' do
+  id = params[:id]
+  @result = bring_from_memo(id)[0]
+  binding.irb
+  haml :show
 end

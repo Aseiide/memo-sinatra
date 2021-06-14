@@ -1,9 +1,6 @@
-&= @result["title"]
-%br
-&= @result["article"]
-%br
+&= @result
 
-%input{:onclick => "location.href='./#{@result["id"]}/edit'", :type => "submit", :value => "編集"}/
-%form{:action => "/memos/#{@result["id"]}", :method => "post"}
-  %input{:name => "_method", :type => "hidden", :value => "DELETE"}/
-  %input{:type => "submit", :value => "削除"}/
+-# %input{:onclick => "location.href='./#{@result["id"]}/edit'", :type => "submit", :value => "編集"}/
+-# %form{:action => "/memos/#{@result["id"]}", :method => "post"}
+-#   %input{:name => "_method", :type => "hidden", :value => "DELETE"}/
+-#   %input{:type => "submit", :value => "削除"}/
