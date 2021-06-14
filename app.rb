@@ -12,9 +12,9 @@ def connect_to_db
 end
 
 # データを追加
-def create_memo(title, article)
-  create_memo_query = "INSERT INTO memos (title, body) VALUES ('#{title}', '#{article}') RETURNING id";
-  connect_to_db.exec(create_memo) {|result| result[0]['id']}
+def create_memo(hash)
+  create_memo_query = "INSERT INTO memos (id, title, article) VALUES ('#{hash["id"]}', '#{hash["title"]}', '#{hash["article"]}')"
+  connect_to_db.exec(create_memo_query)
 end
 
 # idを取得してデータを編集
@@ -43,4 +43,18 @@ get '/memos' do
   # DBから全idのタイトルを取得して変数に格納
   @all_memos = select_from_memos
   haml :top
+end
+
+get '/memos/new' do
+  haml :new
+end
+
+post '/memos' do
+  new_memo = {
+    'id' => SecureRandom.uuid,
+    'title' => params[:title],
+    'article' => params[:article]
+  }
+  create_memo(new_memo)
+  redirect('/memos')
 end
