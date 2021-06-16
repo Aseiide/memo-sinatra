@@ -13,13 +13,13 @@ end
 
 # データを追加
 def create_memo(hash)
-  create_memo_query = "INSERT INTO memos (id, title, article) VALUES ('#{hash["id"]}', '#{hash["title"]}', '#{hash["article"]}')"
+  create_memo_query = "INSERT INTO memos (id, title, article) VALUES ('#{hash["id"]}', '#{hash["title"]}', '#{hash["article"]}')";
   connect_to_db.exec(create_memo_query)
 end
 
 # idを取得してデータを編集
-def update_memo(id, title, body)
-  update_memo_query = "UPDATE memos SET (title, body) = ('#{title}', '#{body}') WHERE id = #{id}";
+def update_memo(hash)
+  update_memo_query = "UPDATE memos SET title = '#{hash["title"]}', article = '#{hash["article"]}' WHERE id = '#{hash["id"]}'";
   connect_to_db.exec(update_memo_query)
 end
 
@@ -68,6 +68,21 @@ end
 get '/memos/:id' do
   id = params[:id]
   @result = bring_from_memo(id)[0]
-  binding.irb
   haml :show
+end
+
+get '/memos/:id/edit' do
+  id = params[:id]
+  @result = bring_from_memo(id)[0]
+  haml :edit
+end
+
+patch '/memos/:id' do
+  edited_memo = {
+    'id' => params[:id],
+    'title' => params[:title],
+    'article' => params[:article]
+  }
+  update_memo(edited_memo)
+  redirect('memos')
 end
