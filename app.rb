@@ -37,7 +37,7 @@ end
 
 # DBから全idのタイトルを取得
 def select_from_memos
-  memos_data = "SELECT title FROM memos";
+  memos_data = "SELECT * FROM memos";
   connect_to_db.exec(memos_data)
 end
 
@@ -86,3 +86,4 @@ patch '/memos/:id' do
   update_memo(edited_memo)
   redirect('memos')
 end
+
