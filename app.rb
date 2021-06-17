@@ -24,9 +24,9 @@ def update_memo(hash)
 end
 
 # idを取得してデータを削除
-def delete_note(id)
-  delete_note_query = "DELETE FROM memos WHERE id = #{id}";
-  connect_to_db.exec(delete_note_query)
+def delete_memo(id)
+  delete_memo_query = "DELETE FROM memos WHERE id = '#{id}'";
+  connect_to_db.exec(delete_memo_query)
 end
 
 # idを取得してtitleとarticleをselectする
@@ -42,7 +42,7 @@ def select_from_memos
 end
 
 get '/' do
-  redirect('/memos')
+  redirect('memos')
 end
 
 get '/memos' do
@@ -62,13 +62,14 @@ post '/memos' do
     'article' => params[:article]
   }
   create_memo(new_memo)
-  redirect('/memos')
+  redirect('memos')
 end
 
 get '/memos/:id' do
   id = params[:id]
   @result = bring_from_memo(id)[0]
   haml :show
+  # binding.irb
 end
 
 get '/memos/:id/edit' do
@@ -87,3 +88,8 @@ patch '/memos/:id' do
   redirect('memos')
 end
 
+delete '/memos/:id' do
+  id = params[:id]
+  delete_memo(id)
+  redirect('memos')
+end
