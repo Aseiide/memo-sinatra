@@ -8,36 +8,36 @@ require 'pg'
 
 # データベースとの接続
 def connect_to_db
-  PG.connect( dbname: 'memo_sinatra' )
+  PG.connect(dbname: 'memo_sinatra')
 end
 
 # データを追加
 def create_memo(hash)
-  query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3)";
+  query = 'INSERT INTO memos (id, title, article) VALUES ($1, $2, $3)'
   connect_to_db.exec(query, [hash['id'], hash['title'], hash['article']])
 end
 
 # idを取得してデータを編集
 def update_memo(hash)
-  query = "UPDATE memos SET title = $1, article = $2 WHERE id = $3";
+  query = 'UPDATE memos SET title = $1, article = $2 WHERE id = $3'
   connect_to_db.exec(query, [hash['title'], hash['article'], hash['id']])
 end
 
 # idを取得してデータを削除
 def delete_memo(id)
-  query = "DELETE FROM memos WHERE id = $1";
+  query = 'DELETE FROM memos WHERE id = $1'
   connect_to_db.exec(query, [id])
 end
 
 # idを取得してtitleとarticleをselectする
 def bring_from_memo(id)
-  query = "SELECT title, article FROM memos where id = $1";
+  query = 'SELECT title, article FROM memos where id = $1'
   connect_to_db.exec(query, [id])
 end
 
 # DBから全idのタイトルを取得
 def select_from_memos
-  memos_data = "SELECT * FROM memos";
+  memos_data = 'SELECT * FROM memos'
   connect_to_db.exec(memos_data)
 end
 
