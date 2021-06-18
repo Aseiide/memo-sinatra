@@ -68,7 +68,8 @@ get '/memos/:id' do
 end
 
 delete '/memos/:id' do
-  File.delete("json/#{params['id']}.json")
+  id = params[:id]
+  File.delete("json/#{id}.json")
   redirect('/memos')
 end
 
