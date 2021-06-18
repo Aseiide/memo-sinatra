@@ -13,8 +13,8 @@ end
 
 # データを追加
 def create_memo(hash)
-  create_memo_query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3), '#{hash['id']}', '#{hash['title']}', '#{hash['article']}'";
-  connect_to_db.exec(create_memo_query)
+  query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3) '#{hash['id']}', '#{hash['title']}', '#{hash['article']}'";
+  connect_to_db.exec(query)
 end
 
 # idを取得してデータを編集
