@@ -7,14 +7,14 @@ require 'haml'
 require 'pg'
 
 # データベースとの接続
-def connect_to_db
-  PG.connect( dbname: 'memo_sinatra' )
-end
+# def connect_to_db
+#   PG.connect( dbname: 'memo_sinatra' )
+# end
 
 # データを追加
 def create_memo(hash)
-  query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3) '#{hash['id']}', '#{hash['title']}', '#{hash['article']}'";
-  connect_to_db.exec(query)
+  query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3)";
+  PG.connect( dbname: 'memo_sinatra' ).exec(query, [hash['id'], hash['title'], hash['article']])
 end
 
 # idを取得してデータを編集
