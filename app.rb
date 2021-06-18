@@ -19,8 +19,8 @@ end
 
 # idを取得してデータを編集
 def update_memo(hash)
-  update_memo_query = "UPDATE memos SET title = '#{hash["title"]}', article = '#{hash["article"]}' WHERE id = '#{hash["id"]}'";
-  connect_to_db.exec(update_memo_query)
+  query = "UPDATE memos SET title = $1, article = $2 WHERE id = $3";
+  connect_to_db.exec(query, [hash['title'], hash['article'], hash['id']])
 end
 
 # idを取得してデータを削除
