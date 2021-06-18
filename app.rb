@@ -7,14 +7,14 @@ require 'haml'
 require 'pg'
 
 # データベースとの接続
-# def connect_to_db
-#   PG.connect( dbname: 'memo_sinatra' )
-# end
+def connect_to_db
+  PG.connect( dbname: 'memo_sinatra' )
+end
 
 # データを追加
 def create_memo(hash)
   query = "INSERT INTO memos (id, title, article) VALUES ($1, $2, $3)";
-  PG.connect( dbname: 'memo_sinatra' ).exec(query, [hash['id'], hash['title'], hash['article']])
+  connect_to_db.exec(query, [hash['id'], hash['title'], hash['article']])
 end
 
 # idを取得してデータを編集
@@ -25,14 +25,14 @@ end
 
 # idを取得してデータを削除
 def delete_memo(id)
-  delete_memo_query = "DELETE FROM memos WHERE id = '#{id}'";
-  connect_to_db.exec(delete_memo_query)
+  query = "DELETE FROM memos WHERE id = $1";
+  connect_to_db.exec(query, [id])
 end
 
 # idを取得してtitleとarticleをselectする
 def bring_from_memo(id)
-  bring_memo_query = "SELECT title, article FROM memos where id = '#{id}'";
-  connect_to_db.exec(bring_memo_query)
+  query = "SELECT title, article FROM memos where id = $1";
+  connect_to_db.exec(query, [id])
 end
 
 # DBから全idのタイトルを取得
