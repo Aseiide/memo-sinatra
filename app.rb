@@ -93,3 +93,7 @@ delete '/memos/:id' do
   delete_memo(id)
   redirect('memos')
 end
+
+not_found do
+  'このページは見つかりませんでした。違うURLを入力してください。'
+end
