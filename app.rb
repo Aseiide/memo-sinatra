@@ -64,6 +64,7 @@ get '/memos/:id' do
 end
 
 delete '/memos/:id' do
+  #削除するファイルがjson以下にあるかどうかチェックが必要
   id = params[:id]
   File.delete("json/#{id}.json")
   redirect('/memos')
