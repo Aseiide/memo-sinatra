@@ -56,10 +56,6 @@ patch '/memos/:id' do
   redirect('/memos')
 end
 
-get '/memos/show' do
-  haml :show
-end
-
 get '/memos/:id' do
   # idのメモのtitleとarticleを表示する
   id = params[:id]
