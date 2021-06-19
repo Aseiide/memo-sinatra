@@ -64,9 +64,20 @@ get '/memos/:id' do
 end
 
 delete '/memos/:id' do
-  #削除するファイルがjson以下にあるかどうかチェックが必要
+  # 削除するファイルがjson以下のファイルと一致するのかチェックが必要
   id = params[:id]
-  File.delete("json/#{id}.json")
+  # メモのファイルが格納されているpathを取得
+  basename = File.expand_path('./json', __dir__)
+
+  # idで渡ってきたjson内のファイル名を取得
+  filename = File.expand_path(File.join(basename, id))
+
+  # リクエストで飛んでくるファイル名とbasenameが一致しなかったらraise
+  raise if basename !=
+           File.expand_path(File.join(File.dirname(filename), './'))
+
+  # filenameと一致するものがあったら削除
+  File.delete("#{filename}.json")
   redirect('/memos')
 end
 
