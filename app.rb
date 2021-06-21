@@ -52,8 +52,16 @@ patch '/memos/:id' do
     'title' => params[:title],
     'article' => params[:article]
   }
-  write_to_json_file(edited_memo)
-  redirect('/memos')
+  # json以下にparams[:id]と同じファイルがあったらpatchを行う
+  # メモのファイルが格納されているpathを取得
+  basename = File.expand_path('./json/', __dir__)
+  # idで渡ってきたjson内のファイル名を取得
+  filename = File.expand_path(File.join(basename, edited_memo['id']))
+  memo_id = File.basename(filename)
+  if edited_memo['id'] == memo_id
+    write_to_json_file(edited_memo)
+    redirect('/memos')
+  end
 end
 
 get '/memos/:id' do
