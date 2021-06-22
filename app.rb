@@ -7,7 +7,13 @@ require 'haml'
 
 # JSON形式でtitleとarticleをmemos.jsonに書き出す
 def write_to_json_file(hash)
-  File.open("json/#{hash['id']}.json", 'w') do |file|
+  basename = File.expand_path('/json', __dir__)
+  filename = File.expand_path(File.join(basename, hash['id']))
+  memo_id = File.basename(filename)
+  raise if basename !=
+           File.expand_path(File.join(File.dirname(filename), './'))
+
+  File.open("json/#{memo_id}.json", 'w') do |file|
     JSON.dump(hash, file)
   end
 end
@@ -52,12 +58,6 @@ patch '/memos/:id' do
     'title' => params[:title],
     'article' => params[:article]
   }
-  basename = File.expand_path('/json')
-  filename = File.expand_path(File.join(basename, edited_memo['id']))
-  raise if basename !=
-           File.expand_path(File.join(File.dirname(filename), './'))
-
-  edited_memo['id'] = File.basename(filename)
   write_to_json_file(edited_memo)
   redirect('/memos')
 end
