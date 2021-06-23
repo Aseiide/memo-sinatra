@@ -8,7 +8,7 @@ require 'pg'
 
 # データベースとの接続
 def connect_to_db
-  PG.connect(dbname: 'memo_sinatra')
+  connection = PG.connect(dbname: 'memo_sinatra')
 end
 
 # データを追加
@@ -69,7 +69,6 @@ get '/memos/:id' do
   id = params[:id]
   @result = bring_from_memo(id)[0]
   haml :show
-  # binding.irb
 end
 
 get '/memos/:id/edit' do
