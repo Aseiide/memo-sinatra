@@ -1,0 +1,7 @@
+%form{:action => "/memos/#{@result["id"]}", :method => "post"}
+  %input{:name => "_method", :type => "hidden", :value => "patch"}
+    %input{:name => "title", :required => "", :type => "text", :value => @result["title"], :required => ""}
+    %br
+    %textarea{:name => "article", :required => ""}= @result["article"]
+    %br
+    %input{:type => "submit", :value => "更新"}
