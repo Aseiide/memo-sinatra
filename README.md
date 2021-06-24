@@ -6,6 +6,7 @@
 
 1. `git clone https://github.com/Aseiide/memo-sinatra.git` を実行して任意のディレクトリにクローンしてください
 2. `cd memo-sinatra` で`memo-sinatra`ディレクトリに移動してください
+
 3. `bundle install`を実行してください。
 4. `bundle exec ruby app.rb`とするとローカルでアプリが立ち上がります
 5. メモの新規作成、編集、削除を行うことができます
@@ -29,3 +30,6 @@ PostgreSQL がまだインストールできていない方は[こちらの記�
    以上のようなデータ型を持った`memosテーブル`を作成してください
 
 以上でデータベースの準備は完了です。
+3. `bundle install`を実行してください。`Gemfile`と`Gemfile.lock`が生成されます
+4. `bundle exec ruby app.rb`とするとローカルでアプリが立ち上がります
+5. メモの新規作成、編集、削除を行うことができます

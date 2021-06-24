@@ -9,6 +9,18 @@ require 'pg'
 # データベースとの接続
 before do
   @connection = PG.connect(dbname: 'memo_sinatra')
+  
+# JSON形式でtitleとarticleをmemos.jsonに書き出す
+def write_to_json_file(hash)
+  basename = File.expand_path('/json', __dir__)
+  filename = File.expand_path(File.join(basename, hash['id']))
+  memo_id = File.basename(filename)
+  raise if basename !=
+           File.expand_path(File.join(File.dirname(filename), './'))
+
+  File.open("json/#{memo_id}.json", 'w') do |file|
+    JSON.dump(hash, file)
+  end
 end
 
 # データを追加
@@ -83,6 +95,7 @@ patch '/memos/:id' do
     'title' => params[:title],
     'article' => params[:article]
   }
+
   update_memo(edited_memo)
   redirect('memos')
 end
@@ -91,6 +104,34 @@ delete '/memos/:id' do
   id = params[:id]
   delete_memo(id)
   redirect('memos')
+
+  write_to_json_file(edited_memo)
+  redirect('/memos')
+end
+
+get '/memos/:id' do
+  # idのメモのtitleとarticleを表示する
+  id = params[:id]
+  @result = pull_memos_from_json_file.find { |x| x['id'].include?(id) }
+  haml :show
+end
+
+delete '/memos/:id' do
+  # 削除するファイルがjson以下のファイルと一致するのかチェックが必要
+  id = params[:id]
+  # メモのファイルが格納されているpathを取得
+  basename = File.expand_path('./json', __dir__)
+
+  # idで渡ってきたjson内のファイル名を取得
+  filename = File.expand_path(File.join(basename, id))
+
+  # リクエストで飛んでくるファイル名とbasenameが一致しなかったらraise
+  raise if basename !=
+           File.expand_path(File.join(File.dirname(filename), './'))
+
+  # filenameと一致するものがあったら削除
+  File.delete("#{filename}.json")
+  redirect('/memos')
 end
 
 not_found do
